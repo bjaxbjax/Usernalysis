@@ -46,7 +46,7 @@ namespace Usernalysis.Controllers
             {
                 var user = result.ToObject<UserModel>();
                 users.Add(user);
-                analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last}");
+                analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last} - Dob: {user.Dob.Date} - Age: {user.Dob.Age}");
             }
             analysisOutput.AppendLine();
             var pct = Calculators.PercentageFemale(users);

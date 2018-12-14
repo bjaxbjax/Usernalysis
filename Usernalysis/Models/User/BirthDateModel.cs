@@ -8,6 +8,12 @@ namespace Usernalysis.Models.User
     public class BirthDateModel
     {
         public DateTime Date { get; set; }
-        public int Age { get; set; }
+        public int Age {
+            get
+            {
+                TimeSpan diff = DateTime.Now - this.Date;
+                return (int)diff.TotalDays / 365;
+            }
+        }
     }
 }
