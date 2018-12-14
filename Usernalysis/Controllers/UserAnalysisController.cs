@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Usernalysis.Models.User;
+using Usernalysis.Lib;
 
 namespace Usernalysis.Controllers
 {
@@ -37,14 +38,18 @@ namespace Usernalysis.Controllers
             {
                 return "ERROR: No results found.";
             }
+
             var results = parse["results"].Children();
-            var ret = new StringBuilder();
+            var users = new List<UserModel>();
+            var analysisOutput = new StringBuilder();
             foreach (var result in results)
             {
                 var user = result.ToObject<UserModel>();
-                ret.Append($"{user.Name.Title}. {user.Name.First} {user.Name.Last} - {user.Gender} - {user.Location.State} - {user.Dob.Date}");
+                users.Add(user);
             }
-            return ret.ToString();
+            var calc = Calculators.PercentageFemale(users);
+            analysisOutput.AppendLine($"Percentage female versus male: {Calculators.PercentageFemale(users) * 100}%");
+            return analysisOutput.ToString();
         }
 
     }
