@@ -78,6 +78,13 @@ namespace Usernalysis.Controllers
                 analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
             }
 
+            analysisOutput.AppendLine("Percentage of people in the following age ranges:");
+            var ageRangePercentages = Calculators.PercentageAgeRanges(users);
+            foreach(var ageRangePercentage in ageRangePercentages)
+            {
+                analysisOutput.AppendLine($"\t{ageRangePercentage.Key} {ageRangePercentage.Value * 100:F1}%");
+            }
+
             return analysisOutput.ToString();
         }
 
