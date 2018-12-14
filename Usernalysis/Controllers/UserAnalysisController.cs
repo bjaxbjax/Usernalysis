@@ -57,10 +57,27 @@ namespace Usernalysis.Controllers
             analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100:F1}%] versus N-Z [{100 - (pct * 100):F1}%]");
             var top10Pct = (from statePct in Calculators.PercentagePeopleInState(users)
                             select statePct).Take(10);
-            foreach(var state in top10Pct)
+            analysisOutput.AppendLine("10 most populous states and the percentage of people in the state:");
+            foreach (var state in top10Pct)
             {
-                analysisOutput.AppendLine($"{state.Key} {state.Value * 100:F1}%");
+                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
             }
+
+            analysisOutput.AppendLine("10 most populous female states and the percentage of total females in the state:");
+            top10Pct = (from statePct in Calculators.PercentageFemalesInState(users)
+                        select statePct).Take(10);
+            foreach (var state in top10Pct)
+            {
+                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
+            }
+            analysisOutput.AppendLine("10 most populous male states and the percentage of total males in the state:");
+            top10Pct = (from statePct in Calculators.PercentageMalesInState(users)
+                        select statePct).Take(10);
+            foreach (var state in top10Pct)
+            {
+                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
+            }
+
             return analysisOutput.ToString();
         }
 

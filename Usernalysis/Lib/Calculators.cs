@@ -28,12 +28,33 @@ namespace Usernalysis.Lib
             return PercentageNameMidpoint(users, midPoint, false);
         }
 
-        public static IDictionary<string, decimal> PercentagePeopleInState(IList<UserModel> users)
+        public static IDictionary<string, decimal> PercentageFemalesInState(IList<UserModel> users)
         {
-            var total = users.Count;
-            var results = users
-                .GroupBy(user => user.Location.State)
-                .Select(state => new { State = state.Key, Count = state.Count()})
+            return PercentagePeopleInState(users, Gender.female);
+        }
+
+        public static IDictionary<string, decimal> PercentageMalesInState(IList<UserModel> users)
+        {
+            return PercentagePeopleInState(users, Gender.male);
+        }
+
+        public static IDictionary<string, decimal> PercentagePeopleInState(IList<UserModel> users, Gender? gender = null)
+        {
+            var query = (from user in users select user);
+            if (gender.HasValue)
+            {
+                if (gender.Value == Gender.female)
+                {
+                    query = query.Where(user => user.Gender == Gender.female);
+                }
+                else
+                {
+                    query = query.Where(user => user.Gender == Gender.male);
+                }
+            }
+            var total = query.Count();
+            var results = query.GroupBy(user => user.Location.State)
+                .Select(state => new { State = state.Key, Count = state.Count() })
                 .OrderByDescending(state => state.Count)
                 .ToDictionary(entry => entry.State, entry => (decimal)entry.Count/total);
             return results;
