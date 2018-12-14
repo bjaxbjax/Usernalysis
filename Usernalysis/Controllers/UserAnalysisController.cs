@@ -46,9 +46,16 @@ namespace Usernalysis.Controllers
             {
                 var user = result.ToObject<UserModel>();
                 users.Add(user);
+                analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last}");
             }
-            var calc = Calculators.PercentageFemale(users);
-            analysisOutput.AppendLine($"Percentage female versus male: {Calculators.PercentageFemale(users) * 100}%");
+            analysisOutput.AppendLine();
+            var pct = Calculators.PercentageFemale(users);
+            analysisOutput.AppendLine($"Percentage female versus male: {pct * 100}%");
+            pct = Calculators.PercentageFirstNameMidpoint(users);
+            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100}%] versus N-Z [{100 - (pct * 100)}%]");
+            pct = Calculators.PercentageLastNameMidpoint(users);
+            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100}%] versus N-Z [{100 - (pct * 100)}%]");
+
             return analysisOutput.ToString();
         }
 
