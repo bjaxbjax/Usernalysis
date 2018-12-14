@@ -46,16 +46,21 @@ namespace Usernalysis.Controllers
             {
                 var user = result.ToObject<UserModel>();
                 users.Add(user);
-                analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last} - Dob: {user.Dob.Date} - Age: {user.Dob.Age}");
+                //analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last} - Dob: {user.Dob.Date} - Age: {user.Dob.Age}");
             }
             analysisOutput.AppendLine();
             var pct = Calculators.PercentageFemale(users);
-            analysisOutput.AppendLine($"Percentage female versus male: {pct * 100}%");
+            analysisOutput.AppendLine($"Percentage female versus male: {pct * 100:F1}%");
             pct = Calculators.PercentageFirstNameMidpoint(users);
-            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100}%] versus N-Z [{100 - (pct * 100)}%]");
+            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100:F1}%] versus N-Z [{100 - (pct * 100):F1}%]");
             pct = Calculators.PercentageLastNameMidpoint(users);
-            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100}%] versus N-Z [{100 - (pct * 100)}%]");
-
+            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{pct * 100:F1}%] versus N-Z [{100 - (pct * 100):F1}%]");
+            var top10Pct = (from statePct in Calculators.PercentagePeopleInState(users)
+                            select statePct).Take(10);
+            foreach(var state in top10Pct)
+            {
+                analysisOutput.AppendLine($"{state.Key} {state.Value * 100:F1}%");
+            }
             return analysisOutput.ToString();
         }
 

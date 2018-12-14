@@ -28,6 +28,17 @@ namespace Usernalysis.Lib
             return PercentageNameMidpoint(users, midPoint, false);
         }
 
+        public static IDictionary<string, decimal> PercentagePeopleInState(IList<UserModel> users)
+        {
+            var total = users.Count;
+            var results = users
+                .GroupBy(user => user.Location.State)
+                .Select(state => new { State = state.Key, Count = state.Count()})
+                .OrderByDescending(state => state.Count)
+                .ToDictionary(entry => entry.State, entry => (decimal)entry.Count/total);
+            return results;
+        }
+
         private static decimal PercentageNameMidpoint(IList<UserModel> users, char midPoint, bool useFirstName)
         {
             var midPointStr = ((char)(midPoint + 1)).ToString();
