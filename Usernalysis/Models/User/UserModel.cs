@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Usernalysis.Models.User
 {
+    // ASSUMPTION: User gender is only Female & Male.
     public enum Gender { female, male }
 
     public class UserModel
