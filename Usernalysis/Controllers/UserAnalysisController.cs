@@ -19,9 +19,14 @@ namespace Usernalysis.Controllers
     [ApiController]
     public class UserAnalysisController : ControllerBase
     {
+        private enum FileFormat { Text, Json, Xml };
+        private const FileFormat DEFAULT_FILE_FORMAT = FileFormat.Text;
+
         [HttpGet]
         public string Get()
         {
+            FileFormat format = DetermineFileFormat();
+
             string json = new StreamReader(Request.Body).ReadToEnd();
             if (string.IsNullOrEmpty(json))
             {
@@ -54,6 +59,53 @@ namespace Usernalysis.Controllers
             var output = ToPlaintext(model);
 
             return output;
+        }
+
+        private FileFormat DetermineFileFormat()
+        {
+            // Give priority to "Accept:" header value
+            if (Request.Headers.Keys.Contains("Accept"))
+            {
+                foreach(var acceptEntry in Request.Headers["Accept"])
+                {
+                    var accepts = acceptEntry.Split(',');
+                    foreach(var accept in accepts)
+                    {
+                        switch (accept.Trim().ToLower())
+                        {
+                            case "text/plain":
+                                return FileFormat.Text;
+                            case "application/json":
+                                return FileFormat.Json;
+                            case "application/xml":
+                                return FileFormat.Xml;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+            if (Request.Query.ContainsKey("format"))
+            {
+                foreach(var queryStringEntry in Request.Query["format"])
+                {
+                    switch (queryStringEntry.Trim().ToLower())
+                    {
+                        case "text":
+                        case "txt":
+                            return FileFormat.Text;
+                        case "json":
+                            return FileFormat.Json;
+                        case "xml":
+                            return FileFormat.Xml;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return DEFAULT_FILE_FORMAT;
         }
 
         private UserAnalysisModel Analyze(IList<UserModel> users)
