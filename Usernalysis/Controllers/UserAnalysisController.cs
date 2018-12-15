@@ -43,44 +43,17 @@ namespace Usernalysis.Controllers
 
             var results = parse["results"].Children();
             var users = new List<UserModel>();
-            var analysisOutput = new StringBuilder();
             foreach (var result in results)
             {
                 var user = result.ToObject<UserModel>();
                 users.Add(user);
-                //analysisOutput.AppendLine($"{user.Name.First} {user.Name.Last} - Dob: {user.Dob.Date} - Age: {user.Dob.Age}");
             }
-            //analysisOutput.AppendLine();
 
             var model = Analyze(users);
-            analysisOutput.AppendLine($"Percentage female versus male: {model.Gender.PercentFemale:F1}%");
-            analysisOutput.AppendLine($"Percentage of first names that start with A-M [{model.FirstName.PercentAtoM:F1}%] versus N-Z [{model.FirstName.PercentNtoZ:F1}%]");
-            analysisOutput.AppendLine($"Percentage of last names that start with A-M [{model.LastName.PercentAtoM:F1}%] versus N-Z [{model.LastName.PercentNtoZ:F1}%]");
-            var top10 = GetTopSortedFromDictionary<string, decimal>(model.StatePercentages);
-            analysisOutput.AppendLine("10 most populous states and the percentage of people in the state:");
-            foreach (var state in top10)
-            {
-                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
-            }
-            analysisOutput.AppendLine("10 most populous female states and the percentage of total females in the state:");
-            top10 = GetTopSortedFromDictionary<string, decimal>(model.FemaleStatePercentages);
-            foreach (var state in top10)
-            {
-                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
-            }
-            analysisOutput.AppendLine("10 most populous male states and the percentage of total males in the state:");
-            top10 = GetTopSortedFromDictionary<string, decimal>(model.MaleStatePercentages);
-            foreach (var state in top10)
-            {
-                analysisOutput.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
-            }
-            analysisOutput.AppendLine("Percentage of people in the following age ranges:");
-            foreach (var ageRangePercentage in model.AgeRangePercentages)
-            {
-                analysisOutput.AppendLine($"\t{ageRangePercentage.Key} {ageRangePercentage.Value * 100:F1}%");
-            }
 
-            return analysisOutput.ToString();
+            var output = ToPlaintext(model);
+
+            return output;
         }
 
         private UserAnalysisModel Analyze(IList<UserModel> users)
@@ -118,6 +91,38 @@ namespace Usernalysis.Controllers
                 result.Add(new KeyValuePair<T, U>(entry.Key, entry.Value));
             }
             return result;
+        }
+
+        private string ToPlaintext(UserAnalysisModel analysis)
+        {
+            var output = new StringBuilder();
+            output.AppendLine($"Percentage female versus male: {analysis.Gender.PercentFemale:F1}%");
+            output.AppendLine($"Percentage of first names that start with A-M [{analysis.FirstName.PercentAtoM:F1}%] versus N-Z [{analysis.FirstName.PercentNtoZ:F1}%]");
+            output.AppendLine($"Percentage of last names that start with A-M [{analysis.LastName.PercentAtoM:F1}%] versus N-Z [{analysis.LastName.PercentNtoZ:F1}%]");
+            var top10 = GetTopSortedFromDictionary<string, decimal>(analysis.StatePercentages);
+            output.AppendLine("10 most populous states and the percentage of people in each state:");
+            foreach (var state in top10)
+            {
+                output.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
+            }
+            output.AppendLine("10 most populous female states and the percentage of females in each state:");
+            top10 = GetTopSortedFromDictionary<string, decimal>(analysis.FemaleStatePercentages);
+            foreach (var state in top10)
+            {
+                output.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
+            }
+            output.AppendLine("10 most populous male states and the percentage of males in each state:");
+            top10 = GetTopSortedFromDictionary<string, decimal>(analysis.MaleStatePercentages);
+            foreach (var state in top10)
+            {
+                output.AppendLine($"\t{state.Key} {state.Value * 100:F1}%");
+            }
+            output.AppendLine("Percentage of people in the following age ranges:");
+            foreach (var ageRangePercentage in analysis.AgeRangePercentages)
+            {
+                output.AppendLine($"\t{ageRangePercentage.Key}: {ageRangePercentage.Value * 100:F1}%");
+            }
+            return output.ToString();
         }
     }
 }
