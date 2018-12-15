@@ -56,7 +56,6 @@ namespace Usernalysis.Lib
             var total = query.Count();
             var results = query.GroupBy(user => user.Location.State)
                 .Select(state => new { State = state.Key, Count = state.Count() })
-                .OrderByDescending(state => state.Count)
                 .ToDictionary(entry => entry.State, entry => (decimal)entry.Count/total);
             return results;
         }
