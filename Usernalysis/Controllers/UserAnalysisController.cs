@@ -23,8 +23,9 @@ namespace Usernalysis.Controllers
         private const FileFormat DEFAULT_FILE_FORMAT = FileFormat.Text;
 
         [HttpGet]
-        public string Get()
+        public ContentResult Get()
         {
+            var result = new ContentResult();
             UserAnalysisModel model = null;
             try
             {
@@ -33,24 +34,28 @@ namespace Usernalysis.Controllers
             }
             catch (Exception ex)
             {
-                return $"ERROR: {ex.Message}";
+                result.Content = $"ERROR: {ex.Message}";
+                return result;
             }
 
-            var output = string.Empty;
 
             switch (DetermineFileFormat(Request))
             {
                 case FileFormat.Json:
+                    Response.ContentType = "application/json";
                     break;
                 case FileFormat.Xml:
+                    Response.ContentType = "application/xml";
+                    result.Content = Serializers.ToXml(model);
                     break;
                 case FileFormat.Text:
                 default:
-                    output = Serializers.ToPlaintext(model);
+                    result.ContentType = "text/plain";
+                    result.Content = Serializers.ToPlaintext(model);
                     break;
             }
 
-            return output;
+            return result;
         }
 
         private IList<T> GetJsonCollectionFromRequest<T>(HttpRequest request, string key)
