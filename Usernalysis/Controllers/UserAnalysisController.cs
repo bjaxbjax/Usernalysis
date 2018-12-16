@@ -25,48 +25,69 @@ namespace Usernalysis.Controllers
         [HttpGet]
         public string Get()
         {
-            FileFormat format = DetermineFileFormat();
-
-            string json = new StreamReader(Request.Body).ReadToEnd();
-            if (string.IsNullOrEmpty(json))
-            {
-                return "ERROR: Json required.";
-            }
-            JObject parse = null;
+            UserAnalysisModel model = null;
             try
             {
-                parse = JObject.Parse(json);
+                var users = GetJsonCollectionFromRequest<UserModel>(Request, "results");
+                model = Analyze(users);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "ERROR: Could not parse json.";
-            }
-            if(parse["results"] == null)
-            {
-                return "ERROR: No results found.";
+                return $"ERROR: {ex.Message}";
             }
 
-            var results = parse["results"].Children();
-            var users = new List<UserModel>();
-            foreach (var result in results)
+            var output = string.Empty;
+
+            switch (DetermineFileFormat(Request))
             {
-                var user = result.ToObject<UserModel>();
-                users.Add(user);
+                case FileFormat.Json:
+                    break;
+                case FileFormat.Xml:
+                    break;
+                case FileFormat.Text:
+                default:
+                    output = Serializers.ToPlaintext(model);
+                    break;
             }
-
-            var model = Analyze(users);
-
-            var output = Serializers.ToPlaintext(model);
 
             return output;
         }
 
-        private FileFormat DetermineFileFormat()
+        private IList<T> GetJsonCollectionFromRequest<T>(HttpRequest request, string key)
+        {
+            var collection = new List<T>();
+            var bodyStr = new StreamReader(request.Body).ReadToEnd();
+            if (string.IsNullOrEmpty(bodyStr))
+            {
+                throw new ApplicationException("Json required in request body.");
+            }
+            try
+            {
+                var json = JObject.Parse(bodyStr);
+                if (!json.ContainsKey(key))
+                {
+                    throw new ApplicationException($"Missing '{key}' key in json.");
+                }
+                var results = json[key].Children();
+                foreach (var result in results)
+                {
+                    var user = result.ToObject<T>();
+                    collection.Add(user);
+                }
+            }
+            catch (JsonReaderException ex)
+            {
+                throw new ApplicationException("Invalid json in request body.", ex);
+            }
+            return collection;
+        }
+
+        private FileFormat DetermineFileFormat(HttpRequest request)
         {
             // Give priority to "Accept:" header value
-            if (Request.Headers.Keys.Contains("Accept"))
+            if (request.Headers.Keys.Contains("Accept"))
             {
-                foreach(var acceptEntry in Request.Headers["Accept"])
+                foreach(var acceptEntry in request.Headers["Accept"])
                 {
                     var accepts = acceptEntry.Split(',');
                     foreach(var accept in accepts)
