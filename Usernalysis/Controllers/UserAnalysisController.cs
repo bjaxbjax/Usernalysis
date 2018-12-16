@@ -139,16 +139,16 @@ namespace Usernalysis.Controllers
         {
             UserAnalysisModel model = new UserAnalysisModel();
 
-            var femalePercentage = Calculators.PercentageFemale(users) * 100;
-            var malePercentage = 100 - femalePercentage;
+            var femalePercentage = Calculators.PercentageFemale(users);
+            var malePercentage = 1 - femalePercentage;
             model.Gender = (femalePercentage, malePercentage);
 
-            var firstNameLeftPercentage = Calculators.PercentageFirstNameMidpoint(users) * 100;
-            var firstNameRightPercentage = 100 - firstNameLeftPercentage;
+            var firstNameLeftPercentage = Calculators.PercentageFirstNameMidpoint(users);
+            var firstNameRightPercentage = 1 - firstNameLeftPercentage;
             model.FirstName = (firstNameLeftPercentage, firstNameRightPercentage);
 
-            var lastNameLeftPercentage = Calculators.PercentageLastNameMidpoint(users) * 100;
-            var lastNameRightPercentage = 100 - lastNameLeftPercentage;
+            var lastNameLeftPercentage = Calculators.PercentageLastNameMidpoint(users);
+            var lastNameRightPercentage = 1 - lastNameLeftPercentage;
             model.LastName = (lastNameLeftPercentage, lastNameRightPercentage);
 
             model.StatePercentages = Calculators.PercentagePeopleInState(users);
