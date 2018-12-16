@@ -43,6 +43,7 @@ namespace Usernalysis.Controllers
             {
                 case FileFormat.Json:
                     Response.ContentType = "application/json";
+                    result.Content = Serializers.ToJson(model);
                     break;
                 case FileFormat.Xml:
                     Response.ContentType = "application/xml";

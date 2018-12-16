@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using Usernalysis.Models;
 
 namespace Usernalysis.Lib
@@ -42,6 +43,103 @@ namespace Usernalysis.Lib
                 output.AppendLine($"\t{ageRangePercentage.Key}: {ageRangePercentage.Value * 100:F1}%");
             }
             return output.ToString();
+        }
+
+        public static string ToJson(UserAnalysisModel analysis)
+        {
+            var json = string.Empty;
+            var serializer = new JsonSerializer();
+            using (var stringWriter = new StringWriter())
+            using (var jsonWriter = new JsonTextWriter(stringWriter))
+            {
+                jsonWriter.WriteStartObject();
+
+                jsonWriter.WritePropertyName("gender-pct");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("female");
+                jsonWriter.WriteValue($"{analysis.Gender.PercentFemale:F1}%");
+                jsonWriter.WritePropertyName("male");
+                jsonWriter.WriteValue($"{analysis.Gender.PercentMale:F1}%");
+                jsonWriter.WriteEndObject();
+
+                jsonWriter.WritePropertyName("name-initial-pct");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("first-name");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("a-m");
+                jsonWriter.WriteValue($"{analysis.FirstName.PercentAtoM:F1}%");
+                jsonWriter.WritePropertyName("n-z");
+                jsonWriter.WriteValue($"{analysis.FirstName.PercentNtoZ:F1}%");
+                jsonWriter.WriteEndObject();
+                jsonWriter.WritePropertyName("last-name");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("a-m");
+                jsonWriter.WriteValue($"{analysis.LastName.PercentAtoM:F1}%");
+                jsonWriter.WritePropertyName("n-z");
+                jsonWriter.WriteValue($"{analysis.LastName.PercentNtoZ:F1}%");
+                jsonWriter.WriteEndObject();
+                jsonWriter.WriteEndObject();
+
+                jsonWriter.WritePropertyName("state-population-top-10");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("total");
+                jsonWriter.WriteStartArray();
+                var top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.StatePercentages);
+                foreach (var state in top10)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("state");
+                    jsonWriter.WriteValue(state.Key);
+                    jsonWriter.WritePropertyName("pct");
+                    jsonWriter.WriteValue($"{state.Value * 100:F1}%");
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+                jsonWriter.WritePropertyName("female");
+                jsonWriter.WriteStartArray();
+                top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.FemaleStatePercentages);
+                foreach (var state in top10)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("state");
+                    jsonWriter.WriteValue(state.Key);
+                    jsonWriter.WritePropertyName("pct");
+                    jsonWriter.WriteValue($"{state.Value * 100:F1}%");
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+                jsonWriter.WritePropertyName("male");
+                jsonWriter.WriteStartArray();
+                top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.MaleStatePercentages);
+                foreach (var state in top10)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("state");
+                    jsonWriter.WriteValue(state.Key);
+                    jsonWriter.WritePropertyName("pct");
+                    jsonWriter.WriteValue($"{state.Value * 100:F1}%");
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+                jsonWriter.WriteEndObject();
+
+                jsonWriter.WritePropertyName("age-ranges");
+                jsonWriter.WriteStartArray();
+                foreach (var ageRangePercentage in analysis.AgeRangePercentages)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("age");
+                    jsonWriter.WriteValue(ageRangePercentage.Key);
+                    jsonWriter.WritePropertyName("pct");
+                    jsonWriter.WriteValue($"{ageRangePercentage.Value * 100:F1}%");
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+
+                jsonWriter.WriteEndObject();
+                json = stringWriter.ToString();
+            }
+            return json;
         }
 
         public static string ToXml(UserAnalysisModel analysis)
@@ -144,6 +242,7 @@ namespace Usernalysis.Lib
             }
             return xml;
         }
+
 
     }
 }
