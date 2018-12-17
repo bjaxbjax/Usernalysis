@@ -57,9 +57,9 @@ namespace Usernalysis.Lib
                 jsonWriter.WritePropertyName("gender-pct");
                 jsonWriter.WriteStartObject();
                 jsonWriter.WritePropertyName("female");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.Gender.PercentFemale)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.Gender.PercentFemale));
                 jsonWriter.WritePropertyName("male");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.Gender.PercentMale)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.Gender.PercentMale));
                 jsonWriter.WriteEndObject();
 
                 jsonWriter.WritePropertyName("name-initial-pct");
@@ -67,16 +67,16 @@ namespace Usernalysis.Lib
                 jsonWriter.WritePropertyName("first-name");
                 jsonWriter.WriteStartObject();
                 jsonWriter.WritePropertyName("a-m");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.FirstName.PercentAtoM)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.FirstName.PercentAtoM));
                 jsonWriter.WritePropertyName("n-z");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.FirstName.PercentNtoZ)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.FirstName.PercentNtoZ));
                 jsonWriter.WriteEndObject();
                 jsonWriter.WritePropertyName("last-name");
                 jsonWriter.WriteStartObject();
                 jsonWriter.WritePropertyName("a-m");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.LastName.PercentAtoM)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.LastName.PercentAtoM));
                 jsonWriter.WritePropertyName("n-z");
-                jsonWriter.WriteValue($"{FormatPercentage(analysis.LastName.PercentNtoZ)}");
+                jsonWriter.WriteValue(DecimalToPercent(analysis.LastName.PercentNtoZ));
                 jsonWriter.WriteEndObject();
                 jsonWriter.WriteEndObject();
 
@@ -91,7 +91,7 @@ namespace Usernalysis.Lib
                     jsonWriter.WritePropertyName("state");
                     jsonWriter.WriteValue(state.Key);
                     jsonWriter.WritePropertyName("pct");
-                    jsonWriter.WriteValue($"{FormatPercentage(state.Value)}");
+                    jsonWriter.WriteValue(DecimalToPercent(state.Value));
                     jsonWriter.WriteEndObject();
                 }
                 jsonWriter.WriteEndArray();
@@ -104,7 +104,7 @@ namespace Usernalysis.Lib
                     jsonWriter.WritePropertyName("state");
                     jsonWriter.WriteValue(state.Key);
                     jsonWriter.WritePropertyName("pct");
-                    jsonWriter.WriteValue($"{FormatPercentage(state.Value)}");
+                    jsonWriter.WriteValue(DecimalToPercent(state.Value));
                     jsonWriter.WriteEndObject();
                 }
                 jsonWriter.WriteEndArray();
@@ -117,7 +117,7 @@ namespace Usernalysis.Lib
                     jsonWriter.WritePropertyName("state");
                     jsonWriter.WriteValue(state.Key);
                     jsonWriter.WritePropertyName("pct");
-                    jsonWriter.WriteValue($"{FormatPercentage(state.Value)}");
+                    jsonWriter.WriteValue(DecimalToPercent(state.Value));
                     jsonWriter.WriteEndObject();
                 }
                 jsonWriter.WriteEndArray();
@@ -131,7 +131,7 @@ namespace Usernalysis.Lib
                     jsonWriter.WritePropertyName("age");
                     jsonWriter.WriteValue(ageRangePercentage.Key);
                     jsonWriter.WritePropertyName("pct");
-                    jsonWriter.WriteValue($"{FormatPercentage(ageRangePercentage.Value)}");
+                    jsonWriter.WriteValue(DecimalToPercent(ageRangePercentage.Value));
                     jsonWriter.WriteEndObject();
                 }
                 jsonWriter.WriteEndArray();
@@ -247,6 +247,11 @@ namespace Usernalysis.Lib
         {
             var percentage_format = "{0:0.0#}";
             return string.Format(percentage_format, pct * 100);
+        }
+
+        private static decimal DecimalToPercent(decimal dec)
+        {
+            return dec * 100;
         }
     }
 }
