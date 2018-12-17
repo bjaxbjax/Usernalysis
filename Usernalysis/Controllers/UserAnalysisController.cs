@@ -60,18 +60,30 @@ namespace Usernalysis.Controllers
             return result;
         }
 
-
         private IList<T> GetJsonCollectionFromRequest<T>(HttpRequest request, string key)
         {
             var collection = new List<T>();
-            var bodyStr = new StreamReader(request.Body).ReadToEnd();
-            if (string.IsNullOrEmpty(bodyStr))
+            var jsonStr = string.Empty;
+
+            try
             {
-                throw new ApplicationException("Json required in request body.");
+                // ASSUMPTION: If file(s) are posted, the first file is the json file.
+                var file = request.Form.Files[0];
+                jsonStr = new StreamReader(file.OpenReadStream()).ReadToEnd();
+            }
+            catch
+            {
+                // Json was not uploaded as a form file.  Read json from the request body.
+                jsonStr = new StreamReader(request.Body).ReadToEnd();
+            }
+
+            if (string.IsNullOrEmpty(jsonStr))
+            {
+                throw new ApplicationException("Json required in request body or posted as a json file.");
             }
             try
             {
-                var json = JObject.Parse(bodyStr);
+                var json = JObject.Parse(jsonStr);
                 if (!json.ContainsKey(key))
                 {
                     throw new ApplicationException($"Missing '{key}' key in json.");
