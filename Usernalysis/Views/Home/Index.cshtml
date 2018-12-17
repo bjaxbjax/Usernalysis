@@ -2,30 +2,36 @@
     ViewData["Title"] = "Usernalysis";
 }
 
-<div id="entry">
+<div id="entry-container">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="navbar-link active" href="#">Active</a>
+            <a data-target="json-file-upload" class="navbar-link" href="#">Json File Upload</a>
         </li>
         <li class="nav-item">
-            <a class="navbar-link" href="#">Passive</a>
+            <a data-target="json-text-input" class="navbar-link" href="#">Json Text Input</a>
         </li>
     </ul>
-    <div id="json-text-input">
-        <textarea id="json-text" rows="4" cols="50"></textarea>
-        <button id="json-text-input-submit">go</button>
-    </div>
-    <div id="json-file-upload">
+    <div id="json-file-upload" class="json-input">
         <input type="file" id="json-file" />
         <button id="json-file-upload-submit">go</button>
     </div>
+    <div id="json-text-input" class="json-input">
+        <textarea id="json-text" rows="4" cols="50"></textarea>
+        <button id="json-text-input-submit">go</button>
+    </div>
 </div>
 <div id="chart-container">
-    <div class="tab-bar">
-        <button id="gender-chart-button" class="tab-button">Gender</button>
-        <button id="initials-chart-button" class="tab-button">First Initial</button>
-        <button id="age-range-chart-button" class="tab-button">Age Range</button>
-    </div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a data-target="chart-gender" class="navbar-link" href="#">Gender</a>
+        </li>
+        <li class="nav-item">
+            <a data-target="chart-initials" class="navbar-link" href="#">Initials</a>
+        </li>
+        <li class="nav-item">
+            <a data-target="chart-age-range" class="navbar-link" href="#">Age Range</a>
+        </li>
+    </ul>
     <div id="chart-gender" class="chart">
 
     </div>
@@ -59,35 +65,22 @@
         });
 
         $(document).ready(function () {
-            initializeCharts();
             initializeInputs();
+            initializeCharts();
         });
 
-        function initializeCharts() {
-            $(".chart").hide();
-            $(".chart").first().show();
-            $(".tab-button").click( function(){
-                var id = $(this).attr("id");
-                switch (id) {
-                    case "gender-chart-button":
-                        $(".chart").hide();
-                        $("#chart-gender").show();
-                        break;
-                    case "initials-chart-button":
-                        $(".chart").hide();
-                        $("#chart-initials").show();
-                        break;
-                    case "age-range-chart-button":
-                        $(".chart").hide();
-                        $("#chart-age-range").show();
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
-
         function initializeInputs() {
+            $(".json-input").hide();
+            $(".json-input").first().show();
+            $("#entry-container .nav-item").first().addClass("active");
+            $("#entry-container .nav-item .navbar-link").click(function () {
+                $("#entry-container .nav-item").removeClass("active");
+                $(this).parent().addClass("active");
+                $(".json-input").hide();
+                var target = $("#" + $(this).attr("data-target"));
+                $(target).show();
+            });
+
             var requestOptions = {
                 url: "@Url.Action("Analyze","UserAnalysis")",
                 type: 'POST',
@@ -117,7 +110,22 @@
             });
         }
 
+        function initializeCharts() {
+            $(".chart").hide();
+            $(".chart").first().show();
+            $("#chart-container .nav-item").first().addClass("active");
+            $("#chart-container .nav-item .navbar-link").click(function () {
+                $("#chart-container .nav-item").removeClass("active");
+                $(this).parent().addClass("active");
+                $(".chart").hide();
+                var target = $("#" + $(this).attr("data-target"));
+                $(target).show();
+            });
+            $("#chart-container").hide();
+        }
+
         function renderCharts() {
+            $("#chart-container").show();
             var genderChart = Highcharts.chart('chart-gender', {
                 chart: {
                     type: 'column'
