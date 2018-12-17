@@ -9,6 +9,7 @@
     </div>
     <div id="json-file-upload">
         <input type="file" id="json-file" />
+        <button id="json-file-upload-submit">go</button>
     </div>
 </div>
 <div id="chart">
@@ -20,12 +21,31 @@
 
 @section Scripts{
     <script type="text/javascript">
+        var analysis;
+
         $(document).ready(function () {
             $("#json-text-input-submit").click(function () {
                 alert($("#json-text").val());
             });
-            $("#json-file-upload").change(function () {
-                alert($("#json-file").val());
+            $("#json-file-upload-submit").click(function () {
+                var formData = new FormData();
+                formData.append('file', $('#json-file')[0].files[0]);
+                $.ajax({
+                    url: "@Url.Action("Analyze","UserAnalysis")",
+                    type: 'POST',
+                    contentType: false,
+                    data: formData,
+                    processData: false,
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    success: function (response) {
+                        analysis = response;
+                        alert(analysis["gender-pct"]["male"]);
+                    },
+                    error: function (err) {
+                        alert('Error: ' + err.responseText);
+                    }
+                });
             });
         });
     </script>
