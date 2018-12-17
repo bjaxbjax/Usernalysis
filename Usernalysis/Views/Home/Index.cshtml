@@ -20,6 +20,7 @@
 </div>
 
 @section Scripts{
+    <script src="~/lib/highcharts.js"></script>
     <script type="text/javascript">
         var analysis;
 
@@ -40,7 +41,7 @@
                     enctype: 'multipart/form-data',
                     success: function (response) {
                         analysis = response;
-                        alert(analysis["gender-pct"]["male"]);
+                        renderChart();
                     },
                     error: function (err) {
                         alert('Error: ' + err.responseText);
@@ -48,5 +49,28 @@
                 });
             });
         });
+
+        function renderChart() {
+            var chart = Highcharts.chart('chart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Percentage female versus male'
+                },
+                xAxis: {
+                    categories: ['Female', 'Male']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                series: [{
+                    data: [analysis["gender-pct"]["female"], analysis["gender-pct"]["male"]]
+                    //data: [Number(analysis["gender-pct"]["female"]), 49.6]
+                }]
+            });
+        }
     </script>
 }
