@@ -53,28 +53,32 @@
         $(document).ready(function () {
             initializeUI();
 
+            var requestOptions = {
+                url: "@Url.Action("Analyze","UserAnalysis")",
+                type: 'POST',
+                processData: false,
+                dataType: 'json',
+                success: function (response) {
+                    analysis = response;
+                    renderCharts();
+                },
+                error: function (err) {
+                    alert('Error: ' + err.responseText);
+                }
+            };
+
             $("#json-text-input-submit").click(function () {
-                alert($("#json-text").val());
+                requestOptions.contentType = 'application/json';
+                requestOptions.data = $("#json-text").val();
+                $.ajax(requestOptions);
             });
             $("#json-file-upload-submit").click(function () {
                 var formData = new FormData();
                 formData.append('file', $('#json-file')[0].files[0]);
-                $.ajax({
-                    url: "@Url.Action("Analyze","UserAnalysis")",
-                    type: 'POST',
-                    contentType: false,
-                    data: formData,
-                    processData: false,
-                    dataType: 'json',
-                    enctype: 'multipart/form-data',
-                    success: function (response) {
-                        analysis = response;
-                        renderCharts();
-                    },
-                    error: function (err) {
-                        alert('Error: ' + err.responseText);
-                    }
-                });
+                requestOptions.contentType = false;
+                requestOptions.data = formData;
+                requestOptions.enctype = 'multipart/form-data';
+                $.ajax(requestOptions);
             });
         });
 
