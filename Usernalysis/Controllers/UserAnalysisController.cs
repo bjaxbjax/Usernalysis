@@ -23,7 +23,8 @@ namespace Usernalysis.Controllers
         private const FileFormat DEFAULT_FILE_FORMAT = FileFormat.Text;
 
         [HttpGet]
-        public ContentResult Get()
+        [HttpPost]
+        public ContentResult Analyze()
         {
             var result = new ContentResult();
             UserAnalysisModel model = null;
@@ -58,6 +59,7 @@ namespace Usernalysis.Controllers
 
             return result;
         }
+
 
         private IList<T> GetJsonCollectionFromRequest<T>(HttpRequest request, string key)
         {
