@@ -2,6 +2,31 @@
     ViewData["Title"] = "Usernalysis";
 }
 
-<div>
-    Usernalysis
+<div id="entry">
+    <div id="json-text-input">
+        <textarea id="json-text" rows="4" cols="50"></textarea>
+        <button id="json-text-input-submit">go</button>
+    </div>
+    <div id="json-file-upload">
+        <input type="file" id="json-file" />
+    </div>
 </div>
+<div id="chart">
+
+</div>
+<div id="map">
+
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#json-text-input-submit").click(function () {
+                alert($("#json-text").val());
+            });
+            $("#json-file-upload").change(function () {
+                alert($("#json-file").val());
+            });
+        });
+    </script>
+}
