@@ -3,6 +3,14 @@
 }
 
 <div id="entry">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="navbar-link active" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="navbar-link" href="#">Passive</a>
+        </li>
+    </ul>
     <div id="json-text-input">
         <textarea id="json-text" rows="4" cols="50"></textarea>
         <button id="json-text-input-submit">go</button>
@@ -51,8 +59,35 @@
         });
 
         $(document).ready(function () {
-            initializeUI();
+            initializeCharts();
+            initializeInputs();
+        });
 
+        function initializeCharts() {
+            $(".chart").hide();
+            $(".chart").first().show();
+            $(".tab-button").click( function(){
+                var id = $(this).attr("id");
+                switch (id) {
+                    case "gender-chart-button":
+                        $(".chart").hide();
+                        $("#chart-gender").show();
+                        break;
+                    case "initials-chart-button":
+                        $(".chart").hide();
+                        $("#chart-initials").show();
+                        break;
+                    case "age-range-chart-button":
+                        $(".chart").hide();
+                        $("#chart-age-range").show();
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        function initializeInputs() {
             var requestOptions = {
                 url: "@Url.Action("Analyze","UserAnalysis")",
                 type: 'POST',
@@ -79,30 +114,6 @@
                 requestOptions.data = formData;
                 requestOptions.enctype = 'multipart/form-data';
                 $.ajax(requestOptions);
-            });
-        });
-
-        function initializeUI() {
-            $(".chart").hide();
-            $(".chart").first().show();
-            $(".tab-button").click( function(){
-                var id = $(this).attr("id");
-                switch (id) {
-                    case "gender-chart-button":
-                        $(".chart").hide();
-                        $("#chart-gender").show();
-                        break;
-                    case "initials-chart-button":
-                        $(".chart").hide();
-                        $("#chart-initials").show();
-                        break;
-                    case "age-range-chart-button":
-                        $(".chart").hide();
-                        $("#chart-age-range").show();
-                        break;
-                    default:
-                        break;
-                }
             });
         }
 
