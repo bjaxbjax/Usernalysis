@@ -35,7 +35,7 @@ namespace Usernalysis.Controllers
             }
             catch (Exception ex)
             {
-                result.Content = $"ERROR: {ex.Message}";
+                result.Content = ex.Message;
                 result.StatusCode = 400;
                 return result;
             }
