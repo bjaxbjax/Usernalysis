@@ -16,7 +16,7 @@
             <input type="file" id="json-file" />
         </div>
         <div class="json-submit">
-            <button id="json-file-upload-submit">go</button>
+            <button id="json-file-upload-submit">Go</button>
         </div>
     </div>
     <div id="json-text-input" class="json-input section">
@@ -24,38 +24,53 @@
             <textarea id="json-text" rows="4" cols="50"></textarea>
         </div>
         <div class="json-submit">
-            <button id="json-text-input-submit">go</button>
+            <button id="json-text-input-submit">Go</button>
         </div>
     </div>
 </div>
-<div id="chart-container" class="container">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a data-target="chart-gender" class="navbar-link" href="#">Gender</a>
-        </li>
-        <li class="nav-item">
-            <a data-target="chart-initials" class="navbar-link" href="#">Initials</a>
-        </li>
-        <li class="nav-item">
-            <a data-target="chart-age-range" class="navbar-link" href="#">Age Range</a>
-        </li>
-    </ul>
-    <div id="chart-gender" class="chart section">
-
+<div id="infographics-container">
+    <div id="infographics-toggle" class="container">
+        <div>
+            <img src="~/images/chart.png" />
+        </div>
+        <div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div>
+            <img src="~/images/usa.png" />
+        </div>
     </div>
-    <div id="chart-initials" class="chart section">
+    <div id="chart-container" class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a data-target="chart-gender" class="navbar-link" href="#">Gender</a>
+            </li>
+            <li class="nav-item">
+                <a data-target="chart-initials" class="navbar-link" href="#">Initials</a>
+            </li>
+            <li class="nav-item">
+                <a data-target="chart-age-range" class="navbar-link" href="#">Age Range</a>
+            </li>
+        </ul>
+        <div id="chart-gender" class="chart section">
 
+        </div>
+        <div id="chart-initials" class="chart section">
+
+        </div>
+        <div id="chart-age-range" class="chart section">
+
+        </div>
     </div>
-    <div id="chart-age-range" class="chart section">
+    <div id="map-container">
+        <div id="map">
 
+        </div>
     </div>
 </div>
-<div id="map-container">
-    <div id="map">
-
-    </div>
-</div>
-
 @section Scripts{
     <script src="~/lib/highcharts.js"></script>
     <script type="text/javascript">
@@ -64,7 +79,6 @@
         Highcharts.setOptions({
             plotOptions: {
                 series: {
-                    animation: false
                 }
             },
             legend: {
@@ -75,6 +89,8 @@
         $(document).ready(function () {
             initializeInputs();
             initializeCharts();
+
+            //$("#infographics-container").hide();
         });
 
         function initializeInputs() {
@@ -96,6 +112,7 @@
                 dataType: 'json',
                 success: function (response) {
                     analysis = response;
+                    $("#infographics-container").show();
                     renderCharts();
                 },
                 error: function (err) {
