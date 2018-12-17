@@ -2,7 +2,7 @@
     ViewData["Title"] = "Usernalysis";
 }
 
-<div id="entry-container">
+<div id="entry-container" class="container">
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a data-target="json-file-upload" class="navbar-link" href="#">Json File Upload</a>
@@ -11,16 +11,24 @@
             <a data-target="json-text-input" class="navbar-link" href="#">Json Text Input</a>
         </li>
     </ul>
-    <div id="json-file-upload" class="json-input">
-        <input type="file" id="json-file" />
-        <button id="json-file-upload-submit">go</button>
+    <div id="json-file-upload" class="json-input section">
+        <div>
+            <input type="file" id="json-file" />
+        </div>
+        <div class="json-submit">
+            <button id="json-file-upload-submit">go</button>
+        </div>
     </div>
-    <div id="json-text-input" class="json-input">
-        <textarea id="json-text" rows="4" cols="50"></textarea>
-        <button id="json-text-input-submit">go</button>
+    <div id="json-text-input" class="json-input section">
+        <div>
+            <textarea id="json-text" rows="4" cols="50"></textarea>
+        </div>
+        <div class="json-submit">
+            <button id="json-text-input-submit">go</button>
+        </div>
     </div>
 </div>
-<div id="chart-container">
+<div id="chart-container" class="container">
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a data-target="chart-gender" class="navbar-link" href="#">Gender</a>
@@ -32,13 +40,13 @@
             <a data-target="chart-age-range" class="navbar-link" href="#">Age Range</a>
         </li>
     </ul>
-    <div id="chart-gender" class="chart">
+    <div id="chart-gender" class="chart section">
 
     </div>
-    <div id="chart-initials" class="chart">
+    <div id="chart-initials" class="chart section">
 
     </div>
-    <div id="chart-age-range" class="chart">
+    <div id="chart-age-range" class="chart section">
 
     </div>
 </div>
