@@ -196,6 +196,7 @@
                     renderChart();
                     renderMap();
                     preloadCallback();
+                    $(".loading").hide();
                 },
                 error: function (err) {
                     alert('Error: ' + err.responseText);
@@ -205,6 +206,7 @@
             $("#json-text-input-submit").click(function () {
                 requestOptions.contentType = 'application/json';
                 requestOptions.data = $("#json-text").val();
+                $(".loading").show();
                 $.ajax(requestOptions);
             });
 
@@ -214,11 +216,13 @@
                 requestOptions.contentType = false;
                 requestOptions.data = formData;
                 requestOptions.enctype = 'multipart/form-data';
+                $(".loading").show();
                 $.ajax(requestOptions);
             });
         }
 
         function initializeUI() {
+            $(".loading").hide();
             $("#chart-container").hide();
             $("#infographic-toggle-switch").click(function () {
                 $("#chart").toggle();
