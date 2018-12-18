@@ -221,7 +221,8 @@
                 },
                 title: {
                     text: ''
-                }
+                },
+                colors: ['#888', '#bbb']
             });
             $("#chart-container .nav-item").first().addClass("active");
             $("#chart-container .nav-item .navbar-link").click(function () {
@@ -260,7 +261,7 @@
                         }
                     });
                     chart.addSeries({
-                        data: [analysis["gender-pct"]["female"], analysis["gender-pct"]["male"]]
+                        data: [{ y: analysis["gender-pct"]["female"], color: '#FF5D77' }, { y: analysis["gender-pct"]["male"], color: '#2196F3' }]
                     });
                     break;
                 case chartTypes.initials:
@@ -321,7 +322,8 @@
                     };
                     chart.update(chartOptions);
                     chart.addSeries({
-                        data: data
+                        data: data,
+                        color: '#FF5D77'
                     });
                     break;
                 case chartTypes.topTenStatesMale:
