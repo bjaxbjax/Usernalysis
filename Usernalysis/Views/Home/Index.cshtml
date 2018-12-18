@@ -289,6 +289,11 @@
                     $("#map").hide();
                     $("#chart-title").text("Percentage Female versus Male");
                     chart.update({
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         xAxis: {
                             categories: ['Female', 'Male']
                         },
@@ -314,6 +319,11 @@
                     $("#map").hide();
                     $("#chart-title").text("Percentage of Name Initials");
                     chart.update({
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         xAxis: {
                             categories: ['A-M', 'N-Z']
                         },
@@ -345,6 +355,11 @@
                     $("#infographics-toggle").show();
                     $("#chart-title").text("Percentage of 10 Most Populous States");
                     var chartOptions = {
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         legend: {
                             enabled: false
                         },
@@ -369,6 +384,11 @@
                     $("#infographics-toggle").show();
                     $("#chart-title").text("Percentage of 10 Most Populous Female States");
                     var chartOptions = {
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         legend: {
                             enabled: false
                         },
@@ -393,6 +413,11 @@
                     $("#infographics-toggle").show();
                     $("#chart-title").text("Percentage of 10 Most Populous Male States");
                     var chartOptions = {
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         legend: {
                             enabled: false
                         },
@@ -420,6 +445,11 @@
                     $("#map").hide();
                     $("#chart-title").text("Percentage of Age Range");
                     var chartOptions = {
+                        yAxis: {
+                            title: {
+                                text: '%'
+                            }
+                        },
                         legend: {
                             enabled: false
                         },
@@ -443,6 +473,11 @@
                     $("#infographics-toggle").show();
                     $("#chart-title").text("Top 10 States with Highest Average Age");
                     var chartOptions = {
+                        yAxis: {
+                            title: {
+                                text: 'years'
+                            }
+                        },
                         legend: {
                             enabled: false
                         },
@@ -503,7 +538,7 @@
                     var state = obj["state"];
                     var val = obj[dataKey];
                     var opacity = val / maxValue;
-                    var valueDisplay = state + ": " + Number(val).toFixed(2) + '%';
+                    var valueDisplay = state + ": " + Number(val).toFixed(2);
                     if (dataKey == "pct") {
                         valueDisplay += '%';
                     }
