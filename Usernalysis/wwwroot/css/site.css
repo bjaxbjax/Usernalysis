@@ -45,6 +45,18 @@ body {
     height: 35px;
 }
 
+#map {
+    width: 100%;
+    height: 500px;
+}
+
+.land {
+    fill: #CCC;
+    fill-opacity: 1;
+    stroke: white;
+    stroke-opacity: 1;
+}
+
 /*********************************** Begin Switch from w3schools ********************************/
 /* The switch - the box around the slider */
 .switch {
