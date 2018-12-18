@@ -52,6 +52,15 @@
                 <a data-target="initials" class="navbar-link" href="#">Initials</a>
             </li>
             <li class="nav-item">
+                <a data-target="top-10-states-total" class="navbar-link" href="#">Top 10 States: Total</a>
+            </li>
+            <li class="nav-item">
+                <a data-target="top-10-states-female" class="navbar-link" href="#">Top 10 States: Female</a>
+            </li>
+            <li class="nav-item">
+                <a data-target="top-10-states-male" class="navbar-link" href="#">Top 10 States: Male</a>
+            </li>
+            <li class="nav-item">
                 <a data-target="age-range" class="navbar-link" href="#">Age Range</a>
             </li>
         </ul>
@@ -123,6 +132,9 @@
         var chartTypes = {
             "gender": "gender",
             "initials": "initials",
+            "topTenStatesTotal": "top-10-states-total",
+            "topTenStatesFemale": "top-10-states-female",
+            "topTenStatesMale": "top-10-states-male",
             "ageRange": "age-range"
         };
         var activeChartType = chartTypes.gender;
@@ -272,8 +284,77 @@
                         data: [analysis["name-initial-pct"]["last-name"]["a-m"], analysis["name-initial-pct"]["last-name"]["n-z"]]
                     });
                     break;
+                case chartTypes.topTenStatesTotal:
+                    var chartOptions = {
+                        title: {
+                            text: 'Percentage of 10 Most Populous States'
+                        },
+                        legend: {
+                            enabled: false
+                        }
+                    };
+                    var categories = [];
+                    var data = [];
+                    $.each(analysis["state-population-top-10"]["total"], function (i, obj) {
+                        categories.push(obj["state"]);
+                        data.push(obj["pct"]);
+                    });
+                    chartOptions.xAxis = {
+                        categories: categories
+                    };
+                    chart.update(chartOptions);
+                    chart.addSeries({
+                        data: data
+                    });
+                    break;
+                case chartTypes.topTenStatesFemale:
+                    var chartOptions = {
+                        title: {
+                            text: 'Percentage of 10 Most Populous Female States'
+                        },
+                        legend: {
+                            enabled: false
+                        }
+                    };
+                    var categories = [];
+                    var data = [];
+                    $.each(analysis["state-population-top-10"]["female"], function (i, obj) {
+                        categories.push(obj["state"]);
+                        data.push(obj["pct"]);
+                    });
+                    chartOptions.xAxis = {
+                        categories: categories
+                    };
+                    chart.update(chartOptions);
+                    chart.addSeries({
+                        data: data
+                    });
+                    break;
+                case chartTypes.topTenStatesMale:
+                    var chartOptions = {
+                        title: {
+                            text: 'Percentage of 10 Most Populous Male States'
+                        },
+                        legend: {
+                            enabled: false
+                        }
+                    };
+                    var categories = [];
+                    var data = [];
+                    $.each(analysis["state-population-top-10"]["male"], function (i, obj) {
+                        categories.push(obj["state"]);
+                        data.push(obj["pct"]);
+                    });
+                    chartOptions.xAxis = {
+                        categories: categories
+                    };
+                    chart.update(chartOptions);
+                    chart.addSeries({
+                        data: data
+                    });
+                    break;
                 case chartTypes.ageRange:
-                    var ageRangeChartOptions = {
+                    var chartOptions = {
                         title: {
                             text: 'Percentage of Age Range'
                         },
@@ -287,10 +368,10 @@
                         categories.push(obj["age"]);
                         data.push(obj["pct"]);
                     });
-                    ageRangeChartOptions.xAxis = {
+                    chartOptions.xAxis = {
                         categories: categories
                     };
-                    chart.update(ageRangeChartOptions);
+                    chart.update(chartOptions);
                     chart.addSeries({
                         data: data
                     });
