@@ -85,6 +85,14 @@ body {
     stroke-opacity: 1;
 }
 
+.land.highlighted:hover {
+    stroke-width: 3;
+}
+
+.tooltip-inner {
+    font-size: 1.5em;
+}
+
 /*********************************** Begin Switch from w3schools ********************************/
 /* The switch - the box around the slider */
 .switch {

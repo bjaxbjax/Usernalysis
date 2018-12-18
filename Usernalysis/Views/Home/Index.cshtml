@@ -158,6 +158,7 @@
             }
         });
 
+
         $(document).ready(function () {
             initializeInputs();
             initializeCharts();
@@ -165,8 +166,7 @@
             initializeUI();
 
             // Pre-load json data to help with development.
-            preLoad();
-
+            //preLoad();
         });
 
         function initializeInputs() {
@@ -427,7 +427,12 @@
             var stateTop10 = analysis["state-population-top-10"];
             var data = [];
             var color = "#00BD6C";
-            $(".land").css({ "fill": "#CCC", "fill-opacity": 1 });
+            $(".land")
+                .css({ "fill": "#CCC", "fill-opacity": 1 })
+                .removeClass("highlighted")
+                .attr("data-toggle", "")
+                .attr("title", "")
+                .attr("data-original-title", "")
             switch (activeChartType) {
                 case chartTypes.topTenStatesTotal:
                     data = stateTop10["total"];
@@ -447,9 +452,19 @@
                 var maxValue = data[0].pct;
                 var minValue = data[data.length - 1].pct;
                 $.each(data, function (i, obj) {
+                    var state = obj["state"];
                     var pct = obj["pct"];
                     var opacity = pct / maxValue;
-                    $("#" + toId(obj["state"])).css({ "fill": color, "fill-opacity": opacity });
+                    var valueDisplay = state + ": " + Number(pct).toFixed(2) + '%';
+                    $("#" + toId(state))
+                        .css({ "fill": color, "fill-opacity": opacity })
+                        .addClass("highlighted")
+                        .attr("data-toggle", "tooltip")
+                        .attr("title", valueDisplay)
+                        .attr("data-original-title", valueDisplay)
+                });
+                $('[data-toggle="tooltip"]').tooltip({
+                    container: 'body'
                 });
             }
         }
