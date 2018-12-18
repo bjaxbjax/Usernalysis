@@ -83,7 +83,7 @@ The API can output the analysis in 3 formats:
 
 Clients can specify the desired format with the request header or the `format` querystring parameter.
 
-###Request header
+### Request header
 
 Set the value for `Accept` to:
 
@@ -93,7 +93,7 @@ Set the value for `Accept` to:
 
 Request header format specification takes precedence over the querystring parameter.
 
-###Querystring parameter
+### Querystring parameter
 Set the value for `format` to:
 
 - `text` for plaintext
@@ -104,7 +104,7 @@ Example:
 
     https://usernalysis.herokuapp.com/api/useranalysis?format=xml
 
-###Example Ajax Request
+### Example Ajax Request
     $.ajax({
       url: 'https://usernalysis.herokuapp.com/api/useranalysis',
       dataType: 'json',
@@ -120,3 +120,9 @@ Example:
 Spacing, indenting, and formatting for this web app relies heavily on Visual Studio's default macros for respective front-end (html, css, js) and back-end (C#) files.
 
 Front-end naming and additional coding styles follow conventions outlined by [w3schools](https://www.w3schools.com/js/js_conventions.asp).  Back-end C# code follows [microsoft](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).
+
+## Sample Data
+Sample data extracts from [Random User Generator](https://randomuser.me/) can be found here:
+- [100 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/100.json) with all properties
+- [5,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/5000.json) with all properties
+- [50,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/50000.json) with only gender, name, location, and dob properies
