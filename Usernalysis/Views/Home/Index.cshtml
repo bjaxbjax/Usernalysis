@@ -289,7 +289,13 @@
                         tooltip: defaultToolTip
                     });
                     chart.addSeries({
-                        data: [{ y: analysis["gender-pct"]["female"], color: '#FF5D77' }, { y: analysis["gender-pct"]["male"], color: '#2196F3' }]
+                        data: [{
+                            y: analysis["gender-pct"]["female"],
+                            color: '#FF5D77'
+                        }, {
+                            y: analysis["gender-pct"]["male"],
+                            color: '#2196F3'
+                        }]
                     });
                     break;
                 case chartTypes.initials:
@@ -313,11 +319,17 @@
                     });
                     chart.addSeries({
                         name: "First Name",
-                        data: [analysis["name-initial-pct"]["first-name"]["a-m"], analysis["name-initial-pct"]["first-name"]["n-z"]]
+                        data: [
+                            analysis["name-initial-pct"]["first-name"]["a-m"],
+                            analysis["name-initial-pct"]["first-name"]["n-z"]
+                        ]
                     });
                     chart.addSeries({
                         name: "Last Name",
-                        data: [analysis["name-initial-pct"]["last-name"]["a-m"], analysis["name-initial-pct"]["last-name"]["n-z"]]
+                        data: [
+                            analysis["name-initial-pct"]["last-name"]["a-m"],
+                            analysis["name-initial-pct"]["last-name"]["n-z"]
+                        ]
                     });
                     break;
                 case chartTypes.topTenStatesTotal:
