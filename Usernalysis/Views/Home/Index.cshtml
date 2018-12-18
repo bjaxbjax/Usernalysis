@@ -15,9 +15,6 @@
         <div>
             <input type="file" id="json-file" />
         </div>
-        <div class="json-submit">
-            <button id="json-file-upload-submit">Go</button>
-        </div>
     </div>
     <div id="json-text-input" class="json-input section">
         <div>
@@ -192,7 +189,8 @@
                 requestOptions.data = $("#json-text").val();
                 $.ajax(requestOptions);
             });
-            $("#json-file-upload-submit").click(function () {
+
+            $("#json-file").change(function () {
                 var formData = new FormData();
                 formData.append('file', $('#json-file')[0].files[0]);
                 requestOptions.contentType = false;
