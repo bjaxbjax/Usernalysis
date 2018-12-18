@@ -22,9 +22,19 @@ body {
 
 .section {
     padding: 20px;
-    border-bottom: solid 1px #ddd;
     border-right: solid 1px #ddd;
     border-left: solid 1px #ddd;
+}
+
+.section-title {
+    text-align: center;
+    color: #888;
+    font-size: 1.25em;
+}
+
+.section-end {
+    padding: 20px;
+    border-bottom: solid 1px #ddd;
 }
 
 .json-input.section {

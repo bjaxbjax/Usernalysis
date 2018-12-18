@@ -11,12 +11,12 @@
             <a data-target="json-text-input" class="navbar-link" href="#">Json Text Input</a>
         </li>
     </ul>
-    <div id="json-file-upload" class="json-input section">
+    <div id="json-file-upload" class="json-input section section-end">
         <div>
             <input type="file" id="json-file" />
         </div>
     </div>
-    <div id="json-text-input" class="json-input section">
+    <div id="json-text-input" class="json-input section section-end">
         <div>
             <textarea id="json-text" rows="4" cols="50"></textarea>
         </div>
@@ -61,7 +61,8 @@
                 <a data-target="age-range" class="navbar-link" href="#">Age Range</a>
             </li>
         </ul>
-        <div id="chart" class="section"></div>
+        <div id="chart-title" class="section section-title"></div>
+        <div id="chart" class="section section-end"></div>
     </div>
     <div id="map-container" class="container">
         <svg id="map" http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="100 0 1250 800">
@@ -217,6 +218,9 @@
                     title: {
                         text: '%'
                     }
+                },
+                title: {
+                    text: ''
                 }
             });
             $("#chart-container .nav-item").first().addClass("active");
@@ -246,10 +250,8 @@
             }
             switch (activeChartType) {
                 case chartTypes.gender:
+                    $("#chart-title").text("Percentage Female versus Male");
                     chart.update({
-                        title: {
-                            text: 'Percentage Female versus Male'
-                        },
                         xAxis: {
                             categories: ['Female', 'Male']
                         },
@@ -262,10 +264,8 @@
                     });
                     break;
                 case chartTypes.initials:
+                    $("#chart-title").text("Percentage of Name Initials");
                     chart.update({
-                        title: {
-                            text: 'Percentage of Name Initials'
-                        },
                         xAxis: {
                             categories: ['A-M', 'N-Z']
                         },
@@ -283,10 +283,8 @@
                     });
                     break;
                 case chartTypes.topTenStatesTotal:
+                    $("#chart-title").text("Percentage of 10 Most Populous States");
                     var chartOptions = {
-                        title: {
-                            text: 'Percentage of 10 Most Populous States'
-                        },
                         legend: {
                             enabled: false
                         }
@@ -306,10 +304,8 @@
                     });
                     break;
                 case chartTypes.topTenStatesFemale:
+                    $("#chart-title").text("Percentage of 10 Most Populous Female States");
                     var chartOptions = {
-                        title: {
-                            text: 'Percentage of 10 Most Populous Female States'
-                        },
                         legend: {
                             enabled: false
                         }
@@ -329,10 +325,8 @@
                     });
                     break;
                 case chartTypes.topTenStatesMale:
+                    $("#chart-title").text("Percentage of 10 Most Populous Male States");
                     var chartOptions = {
-                        title: {
-                            text: 'Percentage of 10 Most Populous Male States'
-                        },
                         legend: {
                             enabled: false
                         }
@@ -352,10 +346,8 @@
                     });
                     break;
                 case chartTypes.ageRange:
+                    $("#chart-title").text("Percentage of Age Range");
                     var chartOptions = {
-                        title: {
-                            text: 'Percentage of Age Range'
-                        },
                         legend: {
                             enabled: false
                         }
