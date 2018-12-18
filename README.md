@@ -59,6 +59,7 @@ Once submitted, the web app will render charts with the following analyses
 5. Percentage of males in each state, up to the top 10 most populous states
 6. Percentage of people in the following age ranges: 0‐20, 21‐40, 41‐60, 61‐80, 81‐100,
 100+
+7. Top 10 states with the highest average age
 
 Charts related to states contain choropleth maps as an alternative illustration of the data.  A switch on the upper-left hand corner of these charts controls the toggle between chart and map.
 

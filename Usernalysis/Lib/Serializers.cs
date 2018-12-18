@@ -23,24 +23,30 @@ namespace Usernalysis.Lib
             output.AppendLine("10 most populous states and the percentage of people in each state:");
             foreach (var state in top10)
             {
-                output.AppendLine($"\t{state.Key} {FormatPercentage(state.Value)}%");
+                output.AppendLine($"\t{state.Key}: {FormatPercentage(state.Value)}%");
             }
             output.AppendLine("10 most populous female states and the percentage of females in each state:");
             top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.FemaleStatePercentages);
             foreach (var state in top10)
             {
-                output.AppendLine($"\t{state.Key} {FormatPercentage(state.Value)}%");
+                output.AppendLine($"\t{state.Key}: {FormatPercentage(state.Value)}%");
             }
             output.AppendLine("10 most populous male states and the percentage of males in each state:");
             top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.MaleStatePercentages);
             foreach (var state in top10)
             {
-                output.AppendLine($"\t{state.Key} {FormatPercentage(state.Value)}%");
+                output.AppendLine($"\t{state.Key}: {FormatPercentage(state.Value)}%");
             }
             output.AppendLine("Percentage of people in the following age ranges:");
             foreach (var ageRangePercentage in analysis.AgeRangePercentages)
             {
                 output.AppendLine($"\t{ageRangePercentage.Key}: {FormatPercentage(ageRangePercentage.Value)}%");
+            }
+            output.AppendLine("10 states with the highest average age:");
+            top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.StateAverageAge);
+            foreach (var state in top10)
+            {
+                output.AppendLine($"\t{state.Key}: {(state.Value)}");
             }
             return output.ToString();
         }
@@ -132,6 +138,20 @@ namespace Usernalysis.Lib
                     jsonWriter.WriteValue(ageRangePercentage.Key);
                     jsonWriter.WritePropertyName("pct");
                     jsonWriter.WriteValue(DecimalToPercent(ageRangePercentage.Value));
+                    jsonWriter.WriteEndObject();
+                }
+                jsonWriter.WriteEndArray();
+
+                jsonWriter.WritePropertyName("state-age-top-10");
+                jsonWriter.WriteStartArray();
+                top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.StateAverageAge);
+                foreach (var state in top10)
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("state");
+                    jsonWriter.WriteValue(state.Key);
+                    jsonWriter.WritePropertyName("age");
+                    jsonWriter.WriteValue(state.Value);
                     jsonWriter.WriteEndObject();
                 }
                 jsonWriter.WriteEndArray();
@@ -231,6 +251,22 @@ namespace Usernalysis.Lib
                     xmlWriter.WriteStartElement($"age");
                     xmlWriter.WriteAttributeString("range", ageRangePercentage.Key);
                     xmlWriter.WriteString($"{FormatPercentage(ageRangePercentage.Value)}");
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteEndElement();
+
+
+                xmlWriter.WriteStartElement("state-age-top-10");
+                top10 = Utilities.GetTopSortedFromDictionary<string, decimal>(analysis.StateAverageAge);
+                foreach (var state in top10)
+                {
+                    xmlWriter.WriteStartElement("state");
+                    xmlWriter.WriteStartElement("name");
+                    xmlWriter.WriteString(state.Key);
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteStartElement("age");
+                    xmlWriter.WriteString(state.Value.ToString());
+                    xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndElement();
                 }
                 xmlWriter.WriteEndElement();

@@ -75,12 +75,12 @@ namespace Usernalysis.Lib
             int currentRangeCount = 0;
 
             // Ignore negative ages in orderedAgeSplits
-            while(orderedAgeSplits[currentSplit] <= 0)
+            while (orderedAgeSplits[currentSplit] <= 0)
             {
                 currentSplit++;
             }
 
-            for(int i=0; i<orderedAges.Length; i++)
+            for (int i = 0; i < orderedAges.Length; i++)
             {
                 int age = orderedAges[i];
                 if (age <= orderedAgeSplits[currentSplit])
@@ -92,12 +92,12 @@ namespace Usernalysis.Lib
                     results.Add(new KeyValuePair<string, decimal>(GetRangeLabel(orderedAgeSplits, currentSplit), (decimal)currentRangeCount / total));
                     currentRangeCount = 1;
                     currentSplit++;
-                    while(currentSplit < orderedAgeSplits.Length && age > orderedAgeSplits[currentSplit])
+                    while (currentSplit < orderedAgeSplits.Length && age > orderedAgeSplits[currentSplit])
                     {
                         results.Add(new KeyValuePair<string, decimal>($"{GetRangeLabel(orderedAgeSplits, currentSplit)}", 0));
                         currentSplit++;
                     }
-                    if(currentSplit >= orderedAgeSplits.Length)
+                    if (currentSplit >= orderedAgeSplits.Length)
                     {
                         currentRangeCount = 0;
                         results.Add(new KeyValuePair<string, decimal>($"{GetRangeLabel(orderedAgeSplits, currentSplit)}", (decimal)(total - i) / total));
@@ -117,6 +117,18 @@ namespace Usernalysis.Lib
             }
             return results;
         }
+
+
+        public static IDictionary<string, decimal> StateAverageAge(IList<UserModel> users)
+        {
+            var query = (from user in users select user);
+            var total = query.Count();
+            var results = query.GroupBy(user => user.Location.State)
+                .Select(state => new { State = state.Key, average = state.Average(u => u.Dob.Age) })
+                .ToDictionary(entry => entry.State, entry => (decimal)entry.average);
+            return results;
+        }
+
 
         private static decimal PercentageNameMidpoint(IList<UserModel> users, char midPoint, bool useFirstName)
         {

@@ -45,6 +45,9 @@
         <li class="nav-item">
             <a data-target="age-range" class="navbar-link" href="#">Age Range</a>
         </li>
+        <li class="nav-item">
+            <a data-target="state-age-top-10" class="navbar-link" href="#">Top 10 States: Average Age</a>
+        </li>
     </ul>
     <div id="chart-heading" class="section section-title">
         <div id="infographics-toggle">
@@ -134,7 +137,8 @@
             "topTenStatesTotal": "top-10-states-total",
             "topTenStatesFemale": "top-10-states-female",
             "topTenStatesMale": "top-10-states-male",
-            "ageRange": "age-range"
+            "ageRange": "age-range",
+            "topTenStatesAge": "state-age-top-10"
         };
         var activeChartType = chartTypes.gender;
         var defaultToolTip = {
@@ -430,6 +434,29 @@
                         data: data
                     });
                     break;
+                case chartTypes.topTenStatesAge:
+                    $("#infographics-toggle").show();
+                    $("#chart-title").text("Top 10 States with Highest Average Age");
+                    var chartOptions = {
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: defaultToolTip
+                    };
+                    var categories = [];
+                    var data = [];
+                    $.each(analysis["state-age-top-10"], function (i, obj) {
+                        categories.push(obj["state"]);
+                        data.push(obj["age"]);
+                    });
+                    chartOptions.xAxis = {
+                        categories: categories
+                    };
+                    chart.update(chartOptions);
+                    chart.addSeries({
+                        data: data
+                    });
+                    break;
                 default:
                     break;
             }
@@ -439,6 +466,7 @@
             var stateTop10 = analysis["state-population-top-10"];
             var data = [];
             var color = "#00BD6C";
+            var dataKey = "pct";
             $(".land")
                 .css({ "fill": "#CCC", "fill-opacity": 1 })
                 .removeClass("highlighted")
@@ -457,17 +485,23 @@
                     data = stateTop10["male"];
                     color = "#2196F3";
                     break;
+                case chartTypes.topTenStatesAge:
+                    data = analysis["state-age-top-10"];
+                    dataKey = "age";
+                    break;
                 default:
                     break;
             }
             if (data.length > 0) {
-                var maxValue = data[0].pct;
-                var minValue = data[data.length - 1].pct;
+                var maxValue = data[0][dataKey];
                 $.each(data, function (i, obj) {
                     var state = obj["state"];
-                    var pct = obj["pct"];
-                    var opacity = pct / maxValue;
-                    var valueDisplay = state + ": " + Number(pct).toFixed(2) + '%';
+                    var val = obj[dataKey];
+                    var opacity = val / maxValue;
+                    var valueDisplay = state + ": " + Number(val).toFixed(2) + '%';
+                    if (dataKey == "pct") {
+                        valueDisplay += '%';
+                    }
                     $("#" + toId(state))
                         .css({ "fill": color, "fill-opacity": opacity })
                         .addClass("highlighted")

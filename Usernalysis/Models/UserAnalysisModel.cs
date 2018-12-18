@@ -14,5 +14,6 @@ namespace Usernalysis.Models
         public IDictionary<string, decimal> FemaleStatePercentages { get; set; }
         public IDictionary<string, decimal> MaleStatePercentages { get; set; }
         public IList<KeyValuePair<string, decimal>> AgeRangePercentages { get; set; }
+        public IDictionary<string, decimal> StateAverageAge { get; set; }
     }
 }

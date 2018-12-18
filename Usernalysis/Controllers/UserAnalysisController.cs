@@ -171,6 +171,8 @@ namespace Usernalysis.Controllers
             model.MaleStatePercentages = Calculators.PercentageMalesInState(users);
             model.AgeRangePercentages = Calculators.PercentageAgeRanges(users);
 
+            model.StateAverageAge = Calculators.StateAverageAge(users);
+
             return model;
         }
 
