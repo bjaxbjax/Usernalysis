@@ -144,6 +144,11 @@
             },
             legend: {
                 enabled: false
+            },
+            chart: {
+                style: {
+                    fontFamily: 'Helvetica'
+                }
             }
         });
 
@@ -212,7 +217,8 @@
         function initializeCharts() {
             chart = Highcharts.chart('chart', {
                 chart: {
-                    type: 'column'
+                    type: 'bar',
+                    animation: false
                 },
                 yAxis: {
                     title: {
@@ -222,7 +228,7 @@
                 title: {
                     text: ''
                 },
-                colors: ['#888', '#bbb']
+                colors: ['#888', '#ccc']
             });
             $("#chart-container .nav-item").first().addClass("active");
             $("#chart-container .nav-item .navbar-link").click(function () {
