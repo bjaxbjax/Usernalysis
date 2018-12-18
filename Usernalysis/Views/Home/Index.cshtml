@@ -136,6 +136,11 @@
             "ageRange": "age-range"
         };
         var activeChartType = chartTypes.gender;
+        var defaultToolTip = {
+            formatter: function () {
+                return '<b>' + this.x + ':</b> ' + Number(this.y).toFixed(2) + '%';
+            }
+        };
 
         Highcharts.setOptions({
             plotOptions: {
@@ -217,8 +222,7 @@
         function initializeCharts() {
             chart = Highcharts.chart('chart', {
                 chart: {
-                    type: 'bar',
-                    animation: false
+                    type: 'bar'
                 },
                 yAxis: {
                     title: {
@@ -264,7 +268,8 @@
                         },
                         legend: {
                             enabled: false
-                        }
+                        },
+                        tooltip: defaultToolTip
                     });
                     chart.addSeries({
                         data: [{ y: analysis["gender-pct"]["female"], color: '#FF5D77' }, { y: analysis["gender-pct"]["male"], color: '#2196F3' }]
@@ -278,6 +283,11 @@
                         },
                         legend: {
                             enabled: true
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return '<b>' + this.series.name + ':</b> ' + Number(this.y).toFixed(2) + '% ' + this.x;
+                            }
                         }
                     });
                     chart.addSeries({
@@ -294,7 +304,8 @@
                     var chartOptions = {
                         legend: {
                             enabled: false
-                        }
+                        },
+                        tooltip: defaultToolTip
                     };
                     var categories = [];
                     var data = [];
@@ -315,7 +326,8 @@
                     var chartOptions = {
                         legend: {
                             enabled: false
-                        }
+                        },
+                        tooltip: defaultToolTip
                     };
                     var categories = [];
                     var data = [];
@@ -337,7 +349,8 @@
                     var chartOptions = {
                         legend: {
                             enabled: false
-                        }
+                        },
+                        tooltip: defaultToolTip
                     };
                     var categories = [];
                     var data = [];
@@ -350,7 +363,8 @@
                     };
                     chart.update(chartOptions);
                     chart.addSeries({
-                        data: data
+                        data: data,
+                        color: '#2196F3'
                     });
                     break;
                 case chartTypes.ageRange:
@@ -358,7 +372,8 @@
                     var chartOptions = {
                         legend: {
                             enabled: false
-                        }
+                        },
+                        tooltip: defaultToolTip
                     };
                     var categories = [];
                     var data = [];
