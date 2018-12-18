@@ -5,10 +5,10 @@
 <div id="entry-container" class="container">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a data-target="json-file-upload" class="navbar-link" href="#">Json File Upload</a>
+            <a data-target="json-file-upload" class="navbar-link">Json File Upload</a>
         </li>
         <li class="nav-item">
-            <a data-target="json-text-input" class="navbar-link" href="#">Json Text Input</a>
+            <a data-target="json-text-input" class="navbar-link">Json Text Input</a>
         </li>
     </ul>
     <div id="json-file-upload" class="json-input section section-end">
@@ -43,10 +43,10 @@
             <a data-target="top-10-states-male" class="navbar-link">Top 10 States: Male</a>
         </li>
         <li class="nav-item">
-            <a data-target="age-range" class="navbar-link" href="#">Age Range</a>
+            <a data-target="state-age-top-10" class="navbar-link">Top 10 States: Average Age</a>
         </li>
         <li class="nav-item">
-            <a data-target="state-age-top-10" class="navbar-link" href="#">Top 10 States: Average Age</a>
+            <a data-target="age-range" class="navbar-link">Age Range</a>
         </li>
     </ul>
     <div id="chart-heading" class="section section-title">
@@ -200,6 +200,7 @@
                 },
                 error: function (err) {
                     alert('Error: ' + err.responseText);
+                    $(".loading").hide();
                 }
             };
 
