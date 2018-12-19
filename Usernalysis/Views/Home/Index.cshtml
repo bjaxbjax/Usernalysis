@@ -234,7 +234,8 @@
         function initializeCharts() {
             chart = Highcharts.chart('chart', {
                 chart: {
-                    type: 'bar'
+                    type: 'bar',
+                    animation: false
                 },
                 xAxis: {
                     tickLength: 0
@@ -342,7 +343,7 @@
                             analysis["name-initial-pct"]["first-name"]["a-m"],
                             analysis["name-initial-pct"]["first-name"]["n-z"]
                         ]
-                    });
+                    },false);
                     chart.addSeries({
                         name: "Last Name",
                         data: [
