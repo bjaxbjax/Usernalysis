@@ -1,14 +1,24 @@
 # Usernalysis
 
-This web app analyzes user data modeled to [Random User Generator](https://randomuser.me/).
+User-(a)nalysis charts user data generated from [Random User Generator](https://randomuser.me/).
 
-## Web App Usage
+## Building/Running Usernalysis
+
+Usernalysis an ASP.Net MVC application primarily using C# and javascript.  It is built with [Visual Studio 2017 Community](https://visualstudio.microsoft.com/downloads/).  To run the app, open the `Usernalysis.sln` solution file in the project root using Visual Studio and Debug/Start from the IDE.
+
+## Usernalysis Usage
 
 Submit users data to the app either through file upload or pasting the users data into the provided text input field.  Users data must be formatted in JSON.
 
 The set of users must be defined in the `results` property.
 
-Example JSON:
+#### Sample Data Sets
+Sample data extracts from [Random User Generator](https://randomuser.me/) can be found here:
+- [100 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/100.json) with all properties
+- [5,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/5000.json) with all properties
+- [50,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/50000.json) with only gender, name, location, and dob properies
+
+#### Example JSON:
 
     {
       "results": [
@@ -120,9 +130,3 @@ Example:
 Spacing, indenting, and formatting for this web app relies heavily on Visual Studio's default macros for respective front-end (html, css, js) and back-end (C#) files.
 
 Front-end naming and additional coding styles follow conventions outlined by [w3schools](https://www.w3schools.com/js/js_conventions.asp).  Back-end C# code follows [microsoft](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).
-
-## Sample Data
-Sample data extracts from [Random User Generator](https://randomuser.me/) can be found here:
-- [100 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/100.json) with all properties
-- [5,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/5000.json) with all properties
-- [50,000 US-Based Users](https://s3.amazonaws.com/share.shtuff.com/randomuser.me/sample.data/50000.json) with only gender, name, location, and dob properies
