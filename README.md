@@ -8,6 +8,8 @@ Usernalysis an ASP.Net MVC application primarily using C# and javascript.  It is
 
 ## Usernalysis Usage
 
+An instance of Usernalysis is available on Heroku: https://usernalysis.herokuapp.com/
+
 Submit users data to the app either through file upload or pasting the users data into the provided text input field.  Users data must be formatted in JSON.
 
 The set of users must be defined in the `results` property.
