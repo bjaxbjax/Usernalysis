@@ -4,7 +4,7 @@ User-(a)nalysis charts user data generated from [Random User Generator](https://
 
 ## Building/Running Usernalysis
 
-Usernalysis an ASP.Net MVC application primarily using C# and javascript.  It is built with [Visual Studio 2017 Community](https://visualstudio.microsoft.com/downloads/).  To run the app, open the `Usernalysis.sln` solution file in the project root using Visual Studio and Debug/Start from the IDE.
+Usernalysis is an ASP.Net MVC application developed primarily using C# and javascript.  It is built with [Visual Studio 2017 Community](https://visualstudio.microsoft.com/downloads/).  To run the app, open the `Usernalysis.sln` solution file in the project root using Visual Studio and Debug/Start from the IDE.
 
 ## Usernalysis Usage
 
